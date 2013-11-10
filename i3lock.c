@@ -36,7 +36,7 @@
 
 /* We need this for libxkbfile */
 static Display *display;
-char color[7] = "000000";
+char color[7] = "333333";
 uint32_t last_resolution[2];
 xcb_window_t win;
 static xcb_cursor_t cursor;
