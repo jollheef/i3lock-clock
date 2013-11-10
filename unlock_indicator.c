@@ -176,7 +176,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
             default:
 
                 if(show_time) {
-                    strftime(time_text,40,"%R",timeinfo);
+                    strftime(time_text,40,"%H:%M:%S",timeinfo);
                     strftime(date_text,40,"%a %m. %b",timeinfo);
                     text = time_text;
                     date = date_text;
@@ -300,7 +300,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
 
             /* Draw clock-face */
             cairo_set_source_rgb(ctx, 0, 0, 0);
-            cairo_set_line_width(ctx, 2.0);
+            cairo_set_line_width(ctx, 1.0);
             for(int i=0; i<12; i++) {
                 if(i%3) {
                     cairo_arc(ctx,
@@ -435,14 +435,14 @@ static void time_redraw_cb(struct ev_loop *loop, ev_periodic *w, int revents) {
 
 void start_time_redraw_tick(void) {
     if (time_redraw_tick) {
-        ev_periodic_set(time_redraw_tick, 1.0, 60., 0);
+        ev_periodic_set(time_redraw_tick, 1.0, 1., 0);
         ev_periodic_again(main_loop, time_redraw_tick);
     } else {
         /* When there is no memory, we just don’t have a timeout. We cannot
          * exit() here, since that would effectively unlock the screen. */
         if (!(time_redraw_tick = calloc(sizeof(struct ev_periodic), 1)))
             return;
-        ev_periodic_init(time_redraw_tick,time_redraw_cb, 1.0, 60., 0);
+        ev_periodic_init(time_redraw_tick,time_redraw_cb, 1.0, 1., 0);
         ev_periodic_start(main_loop, time_redraw_tick);
     }
 }
