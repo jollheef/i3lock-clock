@@ -136,10 +136,10 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
          * (currently verifying, wrong password, or default) */
         switch (pam_state) {
             case STATE_PAM_VERIFY:
-                cairo_set_source_rgba(ctx, 0, 114.0/255, 255.0/255, 0.75);
+                cairo_set_source_rgba(ctx, 0, 114.0/255, 255.0/255, 0);
                 break;
             case STATE_PAM_WRONG:
-                cairo_set_source_rgba(ctx, 250.0/255, 0, 0, 0.75);
+                cairo_set_source_rgba(ctx, 250.0/255, 0, 0, 0);
                 break;
             default:
                 cairo_set_source_rgba(ctx, 0.0/255, 0.0/255, 0.0/255, 0);
@@ -149,13 +149,13 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
 
         switch (pam_state) {
             case STATE_PAM_VERIFY:
-                cairo_set_source_rgb(ctx, 51.0/255, 0, 250.0/255);
+	      cairo_set_source_rgba(ctx, 51.0/255, 0, 250.0/255, 0);
                 break;
             case STATE_PAM_WRONG:
-                cairo_set_source_rgb(ctx, 125.0/255, 51.0/255, 0);
+	      cairo_set_source_rgba(ctx, 125.0/255, 51.0/255, 0, 0);
                 break;
             case STATE_PAM_IDLE:
-                cairo_set_source_rgb(ctx, 51.0/255, 125.0/255, 0);
+	      cairo_set_source_rgba(ctx, 51.0/255, 125.0/255, 0, 0);
                 break;
         }
         cairo_stroke(ctx);
@@ -269,7 +269,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                       hour_mid - (M_PI / 32.0),
                       hour_mid - (M_PI / 512.0));
             
-            cairo_set_source_rgb(ctx, 219.0/255, 51.0/255, 0);
+            cairo_set_source_rgb(ctx, 255.0/255, 255.0/255, 255.0/255);
             cairo_stroke(ctx);
             cairo_arc(ctx,
                       BUTTON_CENTER /* x */,
@@ -287,7 +287,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                       minute_mid - (M_PI / 64.0),
                       minute_mid - (M_PI / 512.0));
             
-            cairo_set_source_rgb(ctx, 51.0/255, 219.0/255, 0);
+            cairo_set_source_rgb(ctx, 255.0/255, 255.0/255, 255.0/255);
             cairo_stroke(ctx);
             cairo_arc(ctx,
                       BUTTON_CENTER /* x */,
