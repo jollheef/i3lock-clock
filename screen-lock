@@ -1,0 +1,68 @@
+#!/usr/bin/env python3.2
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public
+# License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+# Author: Klementyev Mikhail <jollheef@riseup.net>
+#
+# xautolock -time 1 -locker "screen-lock" \
+#     -nowlocker "screen-lock" -detectsleep &
+
+from sh import xinput, timeout, sleep, amixer, i3lock
+from sh import volume, brightness # my scripts
+from sh import notify_send # ln -s notify-send notify_send
+import sys, re, argparse
+
+def activity_p(time):
+    keyboard_activity = timeout(time, 'xinput', 'test', '11',
+                                _bg=True, _ok_code=[0,124])
+    mouse_activity = timeout(time, 'xinput', 'test', '12',
+                             _bg=True, _ok_code=[0,124])
+    keyboard_activity.wait()
+    mouse_activity.wait()
+    if keyboard_activity == "" and mouse_activity == "":
+        return False
+    else:
+        return True
+
+def volume_p():
+    output = str(amixer('sget', 'Master', 'toggle'))
+    return re.search('\[o[nf]f?\]', output).group(0) == '[on]'
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description='Wrapper for advanced screen locking')
+    parser.add_argument('--without-volume-toggle', '--wv',
+                        dest='volume_toggle_p',
+                        action='store_const',
+                        const=False,
+                        default=True)
+    parser.add_argument('--without-check-activity', '--wa',
+                        dest='activity_check_p',
+                        action='store_const',
+                        const=False,
+                        default=True)
+    args = parser.parse_args()
+    if args.activity_check_p:
+        sleep(0.5) # Do not grab the release start button
+        notify_send('-t', 3000, 'Locking screen...')
+        if activity_p(3):
+            notify_send('-t', 3000, 'Abort locking...')
+            sys.exit(1)
+    if args.volume_toggle_p and volume_p():
+        volume('toggle', 'quiet')
+        i3lock('-n', '--color=333333')
+        volume('toggle', 'quiet')
+    else:
+        i3lock('-n', '--color=333333')
+            
