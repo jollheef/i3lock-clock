@@ -190,6 +190,9 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
 
             cairo_set_source_rgb(ctx, 255/255, 255/255, 255/255);
             cairo_set_font_size(ctx, 40.0);
+	    cairo_select_font_face (ctx, "monospace",
+				    CAIRO_FONT_SLANT_NORMAL,
+				    CAIRO_FONT_WEIGHT_NORMAL);
 
             cairo_text_extents(ctx, text, &extents);
             x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
@@ -208,6 +211,9 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
 
             cairo_set_source_rgb(ctx, 255/255, 255/255, 255/255);
             cairo_set_font_size(ctx, 20.0);
+	    cairo_select_font_face (ctx, "monospace",
+				    CAIRO_FONT_SLANT_NORMAL,
+				    CAIRO_FONT_WEIGHT_NORMAL);
 
             cairo_text_extents(ctx, date, &extents);
             x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
