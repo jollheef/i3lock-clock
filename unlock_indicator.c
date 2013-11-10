@@ -269,7 +269,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                       hour_mid - (M_PI / 32.0),
                       hour_mid - (M_PI / 512.0));
             
-            cairo_set_source_rgb(ctx, 219.0/255, 51.0/255, 0);
+            cairo_set_source_rgb(ctx, 10.0/255, 51.0/255, 0);
             cairo_stroke(ctx);
             cairo_arc(ctx,
                       BUTTON_CENTER /* x */,
