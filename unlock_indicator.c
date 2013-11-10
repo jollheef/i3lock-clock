@@ -19,7 +19,7 @@
 #include "unlock_indicator.h"
 #include "xinerama.h"
 
-#define BUTTON_RADIUS 90
+#define BUTTON_RADIUS 120
 #define BUTTON_SPACE (BUTTON_RADIUS + 5)
 #define BUTTON_CENTER (BUTTON_RADIUS + 5)
 #define BUTTON_DIAMETER (2 * BUTTON_SPACE)
@@ -142,7 +142,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                 cairo_set_source_rgba(ctx, 250.0/255, 0, 0, 0.75);
                 break;
             default:
-                cairo_set_source_rgba(ctx, 100.0/255, 100.0/255, 100.0/255, 0.75);
+                cairo_set_source_rgba(ctx, 0.0/255, 0.0/255, 0.0/255, 0);
                 break;
         }
         cairo_fill_preserve(ctx);
@@ -188,8 +188,8 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
             cairo_text_extents_t extents;
             double x, y;
 
-            cairo_set_source_rgb(ctx, 0, 0, 0);
-            cairo_set_font_size(ctx, 28.0);
+            cairo_set_source_rgb(ctx, 255/255, 255/255, 255/255);
+            cairo_set_font_size(ctx, 40.0);
 
             cairo_text_extents(ctx, text, &extents);
             x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
@@ -206,12 +206,12 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
             cairo_text_extents_t extents;
             double x, y;
 
-            cairo_set_source_rgb(ctx, 0, 0, 0);
-            cairo_set_font_size(ctx, 14.0);
+            cairo_set_source_rgb(ctx, 255/255, 255/255, 255/255);
+            cairo_set_font_size(ctx, 20.0);
 
             cairo_text_extents(ctx, date, &extents);
             x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
-            y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing) + 14;
+            y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing) + 30;
 
             cairo_move_to(ctx, x, y);
             cairo_show_text(ctx, date);
@@ -232,8 +232,8 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                       highlight_start,
                       highlight_start + (M_PI / 3.0));
             if (unlock_state == STATE_KEY_ACTIVE) {
-                /* For normal keys, we use a lighter green. */
-                cairo_set_source_rgb(ctx, 51.0/255, 219.0/255, 0);
+                /* For normal keys, we use a gray-yellow. */
+                cairo_set_source_rgb(ctx, 78.0/255, 80.0/255, 0);
             } else {
                 /* For backspace, we use red. */
                 cairo_set_source_rgb(ctx, 219.0/255, 51.0/255, 0);
