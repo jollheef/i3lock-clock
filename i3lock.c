@@ -42,6 +42,8 @@ xcb_window_t win;
 static xcb_cursor_t cursor;
 static pam_handle_t *pam_handle;
 int input_position = 0;
+/* Command to execute if auth fail */
+char* shell_command = NULL;
 /* Holds the password you enter (in UTF-8). */
 static char password[512];
 static bool beep = false;
@@ -200,6 +202,12 @@ static void input_done(void) {
         DEBUG("successfully authenticated\n");
         clear_password_memory();
         exit(0);
+    }
+    else
+    {
+	if (shell_command) {
+	    system(shell_command);
+	}
     }
 
     if (debug_mode)
@@ -534,13 +542,14 @@ int main(int argc, char *argv[]) {
         {"no-unlock-indicator", no_argument, NULL, 'u'},
         {"image", required_argument, NULL, 'i'},
         {"tiling", no_argument, NULL, 't'},
+	{"command", required_argument, NULL, 'o'},
         {NULL, no_argument, NULL, 0}
     };
 
     if ((username = getenv("USER")) == NULL)
         errx(1, "USER environment variable not set, please set it.\n");
 
-    while ((o = getopt_long(argc, argv, "hvnbdc:p:ui:t", longopts, &optind)) != -1) {
+    while ((o = getopt_long(argc, argv, "hvnbdc:p:ui:o:t", longopts, &optind)) != -1) {
         switch (o) {
         case 'v':
             errx(EXIT_SUCCESS, "version " VERSION " © 2010-2012 Michael Stapelberg");
@@ -583,6 +592,9 @@ int main(int argc, char *argv[]) {
                 errx(1, "i3lock: Invalid pointer type given. Expected one of \"win\" or \"default\".\n");
             }
             break;
+	case 'o':
+	    shell_command = strdup(optarg);
+	    break;
         case 'h':
             show_time = false;
             break;
@@ -592,7 +604,7 @@ int main(int argc, char *argv[]) {
             break;
         default:
             errx(1, "Syntax: i3lock [-v] [-n] [-b] [-d] [-c color] [-u] [-p win|default] [-h]"
-            " [-i image.png] [-t]"
+            " [-i image.png] [-t] [-o command]"
             );
         }
     }
