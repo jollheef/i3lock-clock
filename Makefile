@@ -31,7 +31,7 @@ i3lock: ${FILES}
 	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
-	rm -f i3lock ${FILES} i3lock-${VERSION}.tar.gz
+	rm -f i3lock ${FILES} i3lock-${VERSION}.tar.gz *.tgz *.deb
 
 install: all
 	$(INSTALL) -d $(DESTDIR)$(PREFIX)/bin
