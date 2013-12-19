@@ -50,3 +50,6 @@ dist: clean
 	sed -e 's/^GIT_VERSION:=\(.*\)/GIT_VERSION:=$(shell /bin/echo '${GIT_VERSION}' | sed 's/\\/\\\\/g')/g;s/^VERSION:=\(.*\)/VERSION:=${VERSION}/g' Makefile > i3lock-${VERSION}/Makefile
 	tar cfj i3lock-${VERSION}.tar.bz2 i3lock-${VERSION}
 	rm -rf i3lock-${VERSION}
+
+deb: i3lock
+	sudo checkinstall -D --install=no --pkgname="i3lock" --pkgversion=$(shell date +%s) --maintainer="jollheef@riseup.net"

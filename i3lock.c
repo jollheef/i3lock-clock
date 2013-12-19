@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -523,6 +524,7 @@ static void xcb_check_cb(EV_P_ ev_check *w, int revents) {
 }
 
 int main(int argc, char *argv[]) {
+    setlocale(LC_TIME, "ru_RU.UTF-8");
     char *username;
     char *image_path = NULL;
     int ret;

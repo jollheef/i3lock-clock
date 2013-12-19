@@ -177,7 +177,7 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
 
                 if(show_time) {
                     strftime(time_text,40,"%H:%M:%S",timeinfo);
-                    strftime(date_text,40,"%a %m. %b",timeinfo);
+                    strftime(date_text,40,"%a. %d %b.",timeinfo);
                     text = time_text;
                     date = date_text;
                 }
